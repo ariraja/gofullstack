@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
+
+const auth=require('../middleware/auth');
+const multer=require('../middleware/multer-config');
 const stuffCtrl=require("../controllers/stuff");
 
-router.post('/', stuffCtrl.createThing);
+router.post('/',auth, multer,stuffCtrl.createThing);
 
-router.get('/:id', stuffCtrl.getOneThing);//récupère un objet dans la base de données(lecture)
+router.get('/:id',auth,stuffCtrl.getOneThing);//récupère un objet dans la base de données(lecture)
 
-router.get('/', stuffCtrl.getAllThing);//récup tous les objets
+router.get('/', auth,stuffCtrl.getAllStuff);//récup tous les objets
 
-router.put('/:id', stuffCtrl.modifyThing);//modification
+router.put('/:id', auth,multer,stuffCtrl.modifyThing);//modification
 
-router.delete('/:id', stuffCtrl.deleteThing);//supression
+router.delete('/:id', auth,stuffCtrl.deleteThing);//supression
 
 module.exports = router;
